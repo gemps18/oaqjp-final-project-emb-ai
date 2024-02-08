@@ -1,15 +1,14 @@
-import requests
 import json
+import requests
 
 def emotion_detector(text_to_analyse):
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
-    myobj = { "raw_document": { "text": text_to_analyse } }    
     header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
-    response = requests.post(url, json = myobj, headers=header)
-    response = requests.post(url, json = myobj, headers = header, timeout = 5.000) #send request and populate response with
+    myobj = { "raw_document": { "text": text_to_analyse } }
+    response = requests.post(url, json = myobj, headers = header, timeout = 5.000)
     
     if response.status_code == 400:
-        return{
+        return{ 
                 'anger': None, 
                 'disgust': None,
                 'fear': None,
@@ -17,9 +16,9 @@ def emotion_detector(text_to_analyse):
                 'sadness': None,
                 'dominant_emotion': None,
             }
-
-    formatted = json.loads(response.text)
     
+    formatted = json.loads(response.text)
+
     emotions = formatted['emotionPredictions'][0]['emotion']
     
     dominant_emotion = 'default'
@@ -32,8 +31,8 @@ def emotion_detector(text_to_analyse):
 
     response = {}
 
-    print('{') 
-    i=0 
+    print('{')
+    i=0
     for emotion in emotions:
         print("'",emotion,"': ",emotions[emotion],",", sep='')
         i = i+1
