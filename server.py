@@ -1,3 +1,6 @@
+"""
+Main server module to serve the EmotionDetection project
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
